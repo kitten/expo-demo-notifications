@@ -3,6 +3,8 @@ import Constants from 'expo-constants';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
+import { getBaseURL } from './constants';
+
 Notifications.setNotificationHandler({
   async handleNotification() {
     return {
@@ -48,15 +50,13 @@ export async function registerForNotifications() {
   });
 }
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
-
 export async function sendPushNotification() {
   const token = await registerForNotifications();
   if (!token) {
     return;
   }
 
-  await fetch(`${API_URL}/notification`, {
+  await fetch(`${getBaseURL()}/notification`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
